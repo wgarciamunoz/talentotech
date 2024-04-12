@@ -47,7 +47,7 @@ function validarCorreo() {
   var correo = document.getElementById("correo").value;
   console.log(correo);
   // validar formato de correo
-  var expresion = /\w+@\w+\.+[a-z]/;
+  var expresion = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   if (!expresion.test(correo) || correo == null || correo.length == 0) {
     // Mostrar error
