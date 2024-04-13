@@ -1,79 +1,170 @@
-function validarNombre() {
-  var nombre = document.getElementById("nombre").value;
-  console.log(nombre);
-  if (nombre == null || nombre.length == 0 || /^\s+$/.test(nombre)) {
-    // Mostrar error
-    document.getElementById("errorNombre").style.display = "block";
-    // Aggregar clase de error
-    document.getElementById("errorNombre").classList.add("errorNombre");
-    // Mensaje de error
-    document.getElementById("errorNombre").innerHTML = "El campo nombre no puede estar vacío.";
-  } else {
-    // Ocultar error
-    document.getElementById("errorNombre").style.display = "none";
-    // Eliminar clase de error
-    document.getElementById("nombre").classList.remove("errorNombre");
+  const frutas = new Array('manzana', 'uva', 'bananos', 'pera');
+
+//const frutas = ['manzana', 'uva', 'bananos', 'pera'];
+console.log(frutas);
+
+frutas.push('sandia');
+console.log(frutas);
+
+frutas.pop();
+console.log(frutas);
+
+frutas.shift();
+console.log(frutas);
+
+frutas.unshift('kiwi');
+console.log(frutas);
+
+frutas.splice(0, 2);
+console.log(frutas);
+
+frutas.splice(1, 0, 'naranja', 'melon');
+console.log(frutas);
+
+const frutas2 = frutas.splice(0, 2);
+console.log(frutas2.toString());
+const toString = frutas2.toString();
+console.log(toString);
+console.log(toString.split(',')) ;
+// join
+console.log(frutas2.join(' - '));
+
+
+const Persona = {nombre: 'Juan', edad: 30, profesion: 'Desarrollador'};
+console.log(Persona);
+
+// Listas enlazadas
+class Nodo {
+  constructor(valor) {
+    this.valor = valor;
+    this.siguiente = null; // Inicialmente, el siguiente nodo es nulo
+  }
+}
+
+class ListaEnlazada {
+  constructor() {
+    this.primerNodo = null;
   }
 
+  agregar(valor) {
+    const nuevoNodo = new Nodo(valor);
+
+    if (!this.primerNodo) {
+      this.primerNodo = nuevoNodo;
+    } else {
+      let nodoActual = this.primerNodo;
+      while (nodoActual.siguiente) {
+        nodoActual = nodoActual.siguiente;
+      }
+      nodoActual.siguiente = nuevoNodo;
+    }
+  }
+
+  // Método para imprimir los valores de todos los nodos en la lista
+  imprimir() {
+    let nodoActual = this.primerNodo;
+    while (nodoActual) {
+      console.log(nodoActual.valor);
+      nodoActual = nodoActual.siguiente;
+    }
+  }
 }
 
-// validar teléfono
+// Creamos una instancia de la clase ListaEnlazada
+const lista = new ListaEnlazada();
 
-function validarTelefono() {
-  var telefono = document.getElementById("telefono").value;
-  console.log(telefono);
-  // validar formato empieza por 3 dígitos pero el primero debe ser un 3, seguido de un guión, seguido de 3 dígitos, seguido de un guión, seguido de 4 dígitos
-  var expresion = /^(3|6)\d{2}-\d{3}-\d{4}$/;
+// Agregamos nodos a la lista
+lista.agregar(1);
+lista.agregar(2);
+lista.agregar(3);
 
-  if (!expresion.test(telefono) || telefono == null || telefono.length == 0) {
-    // Mostrar error
-    document.getElementById("errorTelefono").style.display = "block";
-    // Aggregar clase de error
-    document.getElementById("errorTelefono").classList.add("errorTelefono");
-    // Mensaje de error
-    document.getElementById("errorTelefono").innerHTML = "El formato del teléfono no es correcto.";
-  } else {  
-    // Ocultar error
-    document.getElementById("errorTelefono").style.display = "none";
-    // Eliminar clase de error
-    document.getElementById("telefono").classList.remove("errorTelefono");
-  } 
+// Imprimimos los valores de todos los nodos en la lista
+lista.imprimir();
+console.log(lista);
+console.log('---------------------');
 
+
+// Pilas LIFO
+
+class Pila {
+  constructor() {
+    this.items = [];
+  }
+
+  push(elemento) {
+    this.items.push(elemento);
+  }
+
+  pop() {
+    if (this.items.length === 0) {
+      return "La pila está vacía";
+    }
+    return this.items.pop();
+  }
+
+  // Método para obtener el último elemento añadido a la pila sin eliminarlo
+  peek() {
+    return this.items[this.items.length - 1];
+  }
 }
 
-// validar correo
+// Creamos una instancia de la clase Pila
+const pila = new Pila();
 
-function validarCorreo() {
-  var correo = document.getElementById("correo").value;
-  console.log(correo);
-  // validar formato de correo
-  var expresion = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+// Agregamos elementos a la pila
+pila.push(1);
+pila.push(2);
+pila.push(3);
 
-  if (!expresion.test(correo) || correo == null || correo.length == 0) {
-    // Mostrar error
-    document.getElementById("errorCorreo").style.display = "block";
-    // Aggregar clase de error
-    document.getElementById("errorCorreo").classList.add("errorCorreo");
-    // Mensaje de error
-    document.getElementById("errorCorreo").innerHTML = "El formato del correo no es correcto.";
-  } else {  
-    // Ocultar error
-    document.getElementById("errorCorreo").style.display = "none";
-    // Eliminar clase de error
-    document.getElementById("correo").classList.remove("errorCorreo");
-  } 
+// Obtenemos el último elemento añadido a la pila sin eliminarlo
+console.log(pila.peek()); // Salida: 3
 
+// Eliminamos y devolvemos el último elemento añadido a la pila
+console.log(pila.pop()); // Salida: 3
+
+// Obtenemos el último elemento añadido a la pila sin eliminarlo
+console.log(pila.peek()); // Salida: 2
+
+console.log('---------------------');
+
+// Colas FIFO
+class Cola {
+  constructor() {
+    this.items = [];
+  }
+
+  enqueue(elemento) {
+    this.items.push(elemento);
+  }
+
+  dequeue() {
+    if (this.items.length === 0) {
+      return "La cola está vacía";
+    }
+    return this.items.shift();
+  }
+
+  // Método para obtener el primer elemento añadido a la cola sin eliminarlo
+  front() {
+    if (this.items.length === 0) {
+      return "La cola está vacía";
+    }
+    return this.items[0];
+  }
 }
+// Creamos una instancia de la clase Cola
+const cola = new Cola();
 
-document.getElementById("nombre").addEventListener("blur", validarNombre);
-document.getElementById("telefono").addEventListener("blur", validarTelefono);
-document.getElementById("correo").addEventListener("blur", validarCorreo);
+// Agregamos elementos a la cola
+cola.enqueue(1);
+cola.enqueue(2);
+cola.enqueue(3);
 
-// Evento click del botón enviar formulario
-function enviarFormulario() {
-  validarNombre();
-  validarTelefono();
-  validarCorreo();
-}
+// Obtenemos el primer elemento añadido a la cola sin eliminarlo
+console.log(cola.front()); // Salida: 1
 
-document.getElementById("enviar").addEventListener("click", enviarFormulario);
+// Eliminamos y devolvemos el primer elemento añadido a la cola
+console.log(cola.dequeue()); // Salida: 1
+
+// Obtenemos el primer elemento añadido a la cola sin eliminarlo
+console.log(cola.front()); // Salida: 2

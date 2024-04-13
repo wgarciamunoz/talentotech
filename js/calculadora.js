@@ -17,9 +17,9 @@ function validarDistancia(distancia) {
 function calcularCosto(peso, distancia) {
     var costo = 0;
     if (peso > 0 && peso <= 500) {
-        costo = distancia * 0.15;
+        costo = distancia * 15000;
     } else if (peso > 500 && peso <= 1000) {
-        costo = distancia * 0.20;
+        costo = distancia * 20000;
     }
     return costo;
 }
