@@ -81,3 +81,108 @@ Abre cualquiera de los archivos HTML en un navegador web para ver la funcionalid
 - ✅ Código más limpio y mantenible
 - ✅ Eliminación de código repetido
 - ✅ Nombres de variables y funciones descriptivos
+
+## 🚀 Despliegue en VPS
+
+El proyecto incluye todo lo necesario para desplegar en tu VPS fácilmente.
+
+### Opción 1: Usando Docker (Recomendado)
+
+**Requisitos previos:**
+- VPS con Ubuntu/Debian
+- Acceso root o sudo
+- Docker y Docker Compose instalados
+
+**Pasos:**
+
+1. **Sube los archivos a tu VPS:**
+```bash
+# Desde tu máquina local
+scp -r . user@tu-vps:/tmp/mi_app
+```
+
+2. **Ejecuta el script de despliegue automático:**
+```bash
+# En tu VPS
+cd /tmp/mi_app
+sudo chmod +x deploy.sh
+sudo ./deploy.sh
+```
+
+3. **¡Listo!** Tu aplicación estará disponible en `http://tu-ip-vps`
+
+### Opción 2: Instalación Manual con Nginx
+
+1. **Instala Nginx:**
+```bash
+sudo apt update
+sudo apt install nginx -y
+```
+
+2. **Copia los archivos al directorio web:**
+```bash
+sudo cp -r * /var/www/mi_app/
+```
+
+3. **Configura Nginx:**
+```bash
+sudo cp nginx.conf /etc/nginx/sites-available/mi_app
+sudo ln -s /etc/nginx/sites-available/mi_app /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
+```
+
+4. **Configura el firewall:**
+```bash
+sudo ufw allow 'Nginx Full'
+sudo ufw allow 'OpenSSH'
+sudo ufw enable
+```
+
+### Opción 3: Docker Compose (Rápido)
+
+Si ya tienes Docker instalado:
+
+```bash
+# Construir y levantar
+docker-compose up -d --build
+
+# Ver logs
+docker-compose logs -f
+
+# Detener
+docker-compose down
+```
+
+### Comandos Útiles
+
+| Acción | Comando |
+|--------|---------|
+| Ver estado | `docker-compose ps` |
+| Ver logs | `docker-compose logs -f` |
+| Reiniciar | `docker-compose restart` |
+| Reconstruir | `docker-compose up -d --build` |
+| Detener | `docker-compose down` |
+
+### Configuración del Dominio
+
+Si quieres usar un dominio personalizado:
+
+1. Edita `nginx.conf` y cambia `tu_dominio_o_IP` por tu dominio
+2. Configura los DNS de tu dominio para apuntar a la IP de tu VPS
+3. Reinicia Nginx: `docker-compose restart`
+
+### HTTPS con Let's Encrypt (Opcional)
+
+Para agregar HTTPS gratuito:
+
+```bash
+# Instalar Certbot
+sudo apt install certbot python3-certbot-nginx -y
+
+# Obtener certificado
+sudo certbot --nginx -d tu-dominio.com
+
+# Auto-renovación (ya configurada automáticamente)
+sudo certbot renew --dry-run
+```
